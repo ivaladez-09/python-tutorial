@@ -1,4 +1,6 @@
 # The template was taken from 'http://www.mashup-template.com/templates.html'
+# Aavoiding windows error "Set-ExecutionPolicy Unrestricted -Scope Process"
+
 from flask import Flask, render_template, request, redirect
 import csv
 import pdb
@@ -35,4 +37,4 @@ def write_to_csv(data):
         csv_writer.writerow([email, subject, message])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
