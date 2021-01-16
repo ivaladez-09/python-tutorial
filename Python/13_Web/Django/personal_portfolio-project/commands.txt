@@ -1,0 +1,6 @@
+django-admin startproject personal_portfolio
+python manage.py startapp blog
+python manage.py startapp portfolio
+python manage.py migrate  -> Aplicar cambios en ORMs
+python manage.py makemigrations  -> Buscar nuevos cambios en ORMs
+python manage.py createsuperuser -> User: ivan, Password: django123
