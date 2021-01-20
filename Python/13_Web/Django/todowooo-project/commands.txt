@@ -1,0 +1,2 @@
+user: ivan
+ps: django123
