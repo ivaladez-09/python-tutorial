@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import TodoForm
+from .models import Todo
 
 
 def home(request):
@@ -25,10 +26,6 @@ def signupuser(request):
         else:
             # Tell the user password don't match
             return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 'error': 'Passwords not match'})
-
-
-def currenttodos(request):
-    return render(request, 'todo/currenttodos.html')
 
 
 def logoutuser(request):
@@ -57,9 +54,14 @@ def createtodo(request):
     elif request.method == 'POST':
         try:
             form = TodoForm(request.POST)
-            new_todo = form.save(commit=False)  # Create an object without the user id
+            new_todo = form.save(commit=False)  # Create an object without the user id (do not save into DB)
             new_todo.user = request.user  # Add the user
             new_todo.save()
             return redirect('currenttodos')
         except ValueError:
             return render(request, 'todo/createtodo.html', {'form': TodoForm(), 'error': 'Bad data passed in'})
+
+
+def currenttodos(request):
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+    return render(request, 'todo/currenttodos.html', {'todos': todos})
