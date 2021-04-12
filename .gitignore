@@ -1,7 +1,0 @@
-.idea/
-.vscode/
-venv/
-__pycache__/
-*.pyc
-*.class
-*.jar
