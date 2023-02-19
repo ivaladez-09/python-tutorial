@@ -1,3 +1,6 @@
+from dataclasses import dataclass, field
+
+
 class PLayerCharacter:
     membership = True  # Public variable
     _private_var = 0  # Private by convention, it is still public
@@ -12,20 +15,17 @@ class PLayerCharacter:
 
     @classmethod
     def adding_things(cls, num1, num2):
-        """It can be called without instanciate the class.
-        Also, you have acces to cls = class"""
+        """It can be called without instantiate the class.
+        Also, you have access to cls = class"""
         return cls("Tedy", num1 + num2)
 
     @staticmethod
     def adding_things2(num1, num2):
-        """It can be called without instanciate the class."""
+        """It can be called without instantiate the class."""
         return num1 + num2
 
-
-# The classmethod can be called without instaciate the class into an object
-player1 = PLayerCharacter.adding_things(12, 6)
-player1.shout()
-print(PLayerCharacter.adding_things2(3, 17))
+    def __repr__(self):
+        return f"PLayerCharacter(name={self.name}, age={self.age})"
 
 
 class Parent:
@@ -45,10 +45,6 @@ class Child(Parent):
 
     def display(self):
         print(f"Child class with name {self.name}")
-
-
-child1 = Child("Ivan", 24, "Juan", 49)
-child1.display()
 
 
 class DunderClass:
@@ -76,8 +72,39 @@ class DunderClass:
         return self.my_dict[i]
 
 
-dunder = DunderClass("Ivan")
-print(dunder)
-print(dunder())
-print(dunder["name"])
-del dunder
+@dataclass
+class MyDataClass:
+    """The 'dataclass decorator will allow us to have automatically the constructor '__init__()' and
+    somo dunder methods as '__repr__'.'"""
+    name: str
+    age: int = field(repr=False, default=10)  # Not adding it to __repr__
+    player: PLayerCharacter = PLayerCharacter("Aaron", 18)  # Default value
+
+
+def main(*args, **kwargs) -> None:
+    # The classmethod can be called without instantiate the class into an object
+    player1 = PLayerCharacter.adding_things(12, 6)
+    player1.shout()
+    print(PLayerCharacter.adding_things2(3, 17))
+
+    child1 = Child("Ivan", 24, "Juan", 49)
+    child1.display()
+
+    dunder = DunderClass("Ivan")
+    print(dunder)
+    print(dunder())
+    print(dunder["name"])
+    del dunder
+
+    data_class: MyDataClass = MyDataClass("Ivan", 27, PLayerCharacter("Edgar", 22))
+    print(data_class)
+
+    data_class2: MyDataClass = MyDataClass("Alejandro", 32)
+    print(data_class2)
+
+    data_class3: MyDataClass = MyDataClass("Eduardo")
+    print(data_class3)
+
+
+if __name__ == '__main__':
+    main()

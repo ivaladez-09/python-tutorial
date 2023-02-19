@@ -2,8 +2,7 @@
 def decorator_function(original_function):
     #  *args and **kwards allow us to pass any number of parameters - the name is given for convention
     def wrapper_function(*args, **kwargs):
-        print('wrapper executed this before {}'.format(
-            original_function.__name__))
+        print(f'wrapper executed this before {original_function.__name__}')
         return original_function(*args, **kwargs)
     return wrapper_function
 
@@ -20,14 +19,6 @@ def display2():
 @decorator_function
 def display_info(name, age):
     print('display_info ran with arguments ({}, {})\n'.format(name, age))
-
-
-# This is what we would do without decorators
-decorated_display = decorator_function(display)
-decorated_display()
-# Now we do the same but with decorators
-display2()
-display_info('Ivan', 24)
 
 
 # Create a decorator to measure the performance of any function
@@ -48,18 +39,6 @@ def long_time():
     for i in range(100000000):
         i *= 2
 
-
-long_time()
-
-
-# Create an @authenticated decorator that only allows the function to run is user1 has 'valid' set to True:
-user1 = {
-    'name': 'Sorna',
-    # changing this will either run or not run the message_friends function.
-    'valid': True
-}
-
-
 def authenticated(fn):
     def wrapper(*args, **kwargs):
         # Check for the first argument
@@ -74,4 +53,24 @@ def message_friends(user):
     print('message has been sent')
 
 
-message_friends(user1)
+def main() -> None:
+    # This is what we would do without decorators
+    decorated_display = decorator_function(display)
+    decorated_display()
+    # Now we do the same but with decorators
+    display2()
+    display_info('Ivan', 24)
+
+    long_time()
+
+    # Create an @authenticated decorator that only allows the function to run is user1 has 'valid' set to True:
+    user1 = {
+        'name': 'Sorna',
+        # changing this will either run or not run the message_friends function.
+        'valid': True
+    }
+    message_friends(user1)
+
+
+if __name__ == '__main__':
+    main()
