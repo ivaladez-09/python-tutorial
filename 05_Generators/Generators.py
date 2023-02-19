@@ -8,16 +8,6 @@ def generator_function(num):
         yield i
 
 
-for item in generator_function(1000):
-    # print(item)  # We get one by one
-    pass
-
-g = generator_function(100)
-print(next(g))
-print(next(g))
-print(next(g))
-
-
 def performance(func):
     from time import time
 
@@ -27,6 +17,7 @@ def performance(func):
         t2 = time()
         print(f"took {t2 - t1} s")
         return result
+
     return wrapper
 
 
@@ -34,18 +25,14 @@ def performance(func):
 def long_time():
     print("long time: ", end="")
     for i in range(10000000):  # range is a generator
-        i*5
+        i * 5
 
 
 @performance
 def long_time2():
     print("long time 2: ", end="")
     for i in list(range(10000000)):
-        i*5
-
-
-long_time()
-long_time2()
+        i * 5
 
 
 def fib(number):
@@ -55,5 +42,22 @@ def fib(number):
         a, b = b, a + b
 
 
-for n in fib(9):
-    print(n)
+def main():
+    for item in generator_function(1000):
+        # print(item)  # We get one by one
+        pass
+
+    g = generator_function(100)
+    print(next(g))
+    print(next(g))
+    print(next(g))
+
+    long_time()
+    long_time2()
+
+    for n in fib(9):
+        print(n)
+
+
+if __name__ == '__main__':
+    main()
